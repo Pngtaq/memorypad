@@ -36,10 +36,3 @@ export async function POST(req: Request) {
     }
   }
 }
-
-// Optionally, you can add a method handler for unsupported methods
-// export async function METHOD_NOT_ALLOWED() {
-//   return new Response(JSON.stringify({ message: "Method Not Allowed" }), {
-//     status: 405,
-//   });
-// }
