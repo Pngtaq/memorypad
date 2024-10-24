@@ -5,7 +5,13 @@ import Button from "../button";
 
 import { FaRegTrashCan } from "react-icons/fa6";
 import { RxUpdate } from "react-icons/rx";
-export default function NoteCard() {
+
+interface NoteCardProps {
+  title: string;
+  content: string;
+}
+
+export default function NoteCard({ title, content }: NoteCardProps) {
   const [colorChange, setColorChange] = useState("");
 
   const handleColorChange = (color: string) => {
@@ -20,8 +26,8 @@ export default function NoteCard() {
       }}
       className={`border-2 border-slate-800 min-h-72 h-auto p-4 rounded-xl flex flex-col hover:scale-105 transition-all ease-in-out duration-300 hover:cursor-pointer font-roboto-mono`}
     >
-      <p className="text-center border-b-2 border-black">Title here</p>
-      <p className="flex-grow pt-4">content here sldkjsakldjaskdkladalasdads</p>
+      <p className="text-center border-b-2 border-black">{title}</p>
+      <p className="flex-grow pt-4">{content}</p>
       <div className="flex justify-between">
         <Button type="secondary" className="text-lg p-2 border-2 border-black">
           <RxUpdate />

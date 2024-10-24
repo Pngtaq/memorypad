@@ -2,69 +2,63 @@
 import Button from "@/components/button";
 import Modal from "@/components/notes/modal";
 import Navigation from "@/components/navigation";
-
-import NoteCard from "@/components/notes/noteCard";
 import { useState, useEffect } from "react";
+import NoteCard from "@/components/notes/noteCard";
+
+interface Note {
+  _id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const Page = () => {
-  const [data, setData] = useState<Array<string> | null>([]); // Replace 'any' with the actual type if known
+  const [notes, setNotes] = useState<Note[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState<string | null>(null);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/api/user");
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await res.json();
-        setData(result);
-      } catch (err) {
-        if (err instanceof Error) {
-          console.log(err.message);
-        } else {
-          console.log("An unknown error occurred");
-        }
-      } finally {
-        console.log(false);
+  const fetchData = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/notes");
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
       }
-    };
+      const result = await res.json();
+      setNotes(result.data || []); // Assuming result.data is the array of notes
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error(err.message);
+      } else {
+        console.error("An unknown error occurred");
+      }
+    }
+  };
 
-    fetchData();
+  useEffect(() => {
+    fetchData(); // Fetch notes on component mount
   }, []);
 
-  // if (loading)
-  //   return (
-  //     <div className="h-screen text-center flex justify-center items-center">
-  //       Loading...
-  //     </div>
-  //   );
-  // if (error) return <div>Error: {error}</div>;
-
-  console.log(data);
+  console.log(notes);
 
   return (
-    <div className="h-screen relative ">
+    <div className="h-screen relative">
       <Navigation />
-      <div className={`${!isOpen || "opacity-10"}`}>
+      <div className={`${!isOpen ? "opacity-100" : "opacity-10"}`}>
         {!isOpen && (
           <div className="flex flex-row flex-wrap gap-y-8 gap-x-8 h-[60%] overflow-y-auto justify-center pt-12 pb-4 px-4">
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
-            <NoteCard />
+            {notes.map((note) => (
+              <NoteCard
+                key={note._id}
+                title={note.title}
+                content={note.content}
+              />
+            ))}
           </div>
         )}
-
-        {/* {!isOpen && <NoContent />} */}
 
         <Button
           type="secondary"
@@ -74,7 +68,7 @@ const Page = () => {
           +
         </Button>
       </div>
-      {isOpen && <Modal handleClick={handleClick} />}
+      {isOpen && <Modal handleClick={handleClick} onNoteAdded={fetchData} />}
     </div>
   );
 };

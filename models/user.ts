@@ -8,5 +8,6 @@ const userSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-const User = mongoose.model("User", userSchema);
+// Check if the model already exists to avoid OverwriteModelError
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 export default User;

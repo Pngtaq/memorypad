@@ -3,22 +3,54 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 
-export default function Modal({ handleClick }: { handleClick: () => void }) {
+export default function Modal({
+  handleClick,
+  onNoteAdded,
+}: {
+  handleClick: () => void;
+  onNoteAdded: () => void;
+}) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [letterCount, setLetterCount] = useState(0);
+
   const handleReset = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setTitle("");
     setContent("");
     setLetterCount(0);
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(title, content);
-    e.preventDefault(); // Prevent the default form submission behavior
-    handleClick(); // Close the modal
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const noteData = { title, content };
+
+    try {
+      const response = await fetch("http://localhost:3000/api/notes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(noteData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create note");
+      }
+
+      const result = await response.json();
+      console.log("Note created:", result);
+
+      // Reset form and notify parent to refresh notes
+      handleReset(e);
+      onNoteAdded(); // Call the fetch function from the parent
+      handleClick(); // Close the modal
+    } catch (error) {
+      console.error("Error submitting note:", error);
+    }
   };
-  //   useEffect(() => {}, [letterCount]);
+
   return (
     <motion.div
       className="flex justify-center items-center h-1/2 font-roboto-mono"
@@ -46,7 +78,7 @@ export default function Modal({ handleClick }: { handleClick: () => void }) {
           <input
             type="text"
             placeholder="Title"
-            className="bg-yellow-100 w-full border-b-2 border-yellow-300 outline-none text-center "
+            className="bg-yellow-100 w-full border-b-2 border-yellow-300 outline-none text-center"
             autoFocus
             value={title} // Bind the input value to the state
             onChange={(e) => setTitle(e.target.value)} // Update state on change
@@ -56,7 +88,7 @@ export default function Modal({ handleClick }: { handleClick: () => void }) {
           <textarea
             className="bg-yellow-100 w-full h-52 outline-none border-yellow-300 border-2 p-2"
             placeholder="To remember..."
-            content={content}
+            value={content} // Corrected to value instead of content
             onChange={(e) => {
               setContent(e.target.value);
               setLetterCount(e.target.value.length);
@@ -64,8 +96,7 @@ export default function Modal({ handleClick }: { handleClick: () => void }) {
           />
         </div>
         <div className="flex justify-between text-sm pb-1">
-          <p>{letterCount}/160 Characters </p>
-
+          <p>{letterCount}/160 Characters</p>
           <p className="text-end">date & time</p>
         </div>
 
