@@ -49,6 +49,35 @@ export async function POST(req: Request) {
   }
 }
 
+export async function DELETE(req: Request) {
+  try {
+    await connectToDB();
+    const { id } = await req.json(); // Expecting the ID to be sent in the request body
+
+    const deletedNote = await Notes.findByIdAndDelete(id);
+
+    if (!deletedNote) {
+      return NextResponse.json({ error: "Note not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      { message: "Note successfully deleted" },
+      { status: 200 }
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error("Error deleting note:", err.message);
+      return NextResponse.json({ error: err.message }, { status: 400 });
+    } else {
+      console.error("Unexpected error:", String(err));
+      return NextResponse.json(
+        { error: "An unexpected error occurred" },
+        { status: 500 }
+      );
+    }
+  }
+}
+
 // Optionally, you can add a method handler for unsupported methods
 // export async function METHOD_NOT_ALLOWED() {
 //   return new Response(JSON.stringify({ message: "Method Not Allowed" }), {

@@ -4,6 +4,7 @@ import Modal from "@/components/notes/modal";
 import Navigation from "@/components/navigation";
 import { useState, useEffect } from "react";
 import NoteCard from "@/components/notes/noteCard";
+import Loading from "@/components/loading";
 
 interface Note {
   _id: string;
@@ -16,13 +17,14 @@ interface Note {
 const Page = () => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       const res = await fetch("http://localhost:3000/api/notes");
       if (!res.ok) {
         throw new Error("Network response was not ok");
@@ -35,6 +37,10 @@ const Page = () => {
       } else {
         console.error("An unknown error occurred");
       }
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
@@ -44,8 +50,11 @@ const Page = () => {
 
   console.log(notes);
 
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
-    <div className="h-screen relative">
+    <div className="relative">
       <Navigation />
       <div className={`${!isOpen ? "opacity-100" : "opacity-10"}`}>
         {!isOpen && (
@@ -62,7 +71,7 @@ const Page = () => {
 
         <Button
           type="secondary"
-          className="absolute right-10 bottom-10 px-4 py-2"
+          className="absolute right-10 top-20 px-4 py-2"
           onClick={handleClick}
         >
           +

@@ -24,7 +24,7 @@ export default function NoteCard({ title, content }: NoteCardProps) {
         backgroundColor:
           colorChange || "rgb(253, 224, 71 / var(--tw-border-opacity))", // Fix the color definition
       }}
-      className={`border-2 border-slate-800 min-h-72 h-auto p-4 rounded-xl flex flex-col hover:scale-105 transition-all ease-in-out duration-300 hover:cursor-pointer font-roboto-mono`}
+      className={`border-2 border-slate-800 min-h-72 h-auto p-4 rounded-xl flex flex-col hover:scale-105 transition-all ease-in-out duration-300 hover:cursor-pointer font-roboto-mono w-72`}
     >
       <p className="text-center border-b-2 border-black">{title}</p>
       <p className="flex-grow pt-4">{content}</p>
