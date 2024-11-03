@@ -48,6 +48,34 @@ const Page = () => {
     fetchData(); // Fetch notes on component mount
   }, []);
 
+  async function deleteNote(noteId: string) {
+    try {
+      const response = await fetch("http://localhost:3000/api/notes", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: noteId }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error deleting note:", errorData.error);
+        throw new Error(errorData.error);
+      }
+
+      const data = await response.json();
+      console.log(data.message); // Success message
+    } catch (error) {
+      // Type assertion to handle the unknown type
+      const errorMessage =
+        (error as Error).message || "An unknown error occurred";
+      console.error("Error:", errorMessage);
+    } finally {
+      fetchData(); // Fetch notes after deleting a note
+    }
+  }
+
   console.log(notes);
 
   if (isLoading) {
@@ -64,6 +92,7 @@ const Page = () => {
                 key={note._id}
                 title={note.title}
                 content={note.content}
+                onClick={() => deleteNote(note._id)}
               />
             ))}
           </div>

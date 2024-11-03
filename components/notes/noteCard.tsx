@@ -9,9 +9,10 @@ import { RxUpdate } from "react-icons/rx";
 interface NoteCardProps {
   title: string;
   content: string;
+  onClick: () => void;
 }
 
-export default function NoteCard({ title, content }: NoteCardProps) {
+export default function NoteCard({ title, content, onClick }: NoteCardProps) {
   const [colorChange, setColorChange] = useState("");
 
   const handleColorChange = (color: string) => {
@@ -36,7 +37,11 @@ export default function NoteCard({ title, content }: NoteCardProps) {
           colorChange={colorChange}
           handleColorChange={handleColorChange}
         />
-        <Button type="secondary" className="text-lg p-2 border-2 border-black">
+        <Button
+          type="secondary"
+          className="text-lg p-2 border-2 border-black"
+          onClick={onClick}
+        >
           <FaRegTrashCan />
         </Button>
       </div>
