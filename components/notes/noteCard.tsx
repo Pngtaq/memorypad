@@ -25,11 +25,20 @@ export default function NoteCard({ title, content, onClick }: NoteCardProps) {
         backgroundColor:
           colorChange || "rgb(253, 224, 71 / var(--tw-border-opacity))", // Fix the color definition
       }}
-      className={`border-2 border-slate-800 min-h-72 h-auto p-4 rounded-xl flex flex-col hover:scale-105 transition-all ease-in-out duration-300 hover:cursor-pointer font-roboto-mono w-72`}
+      className={`border-2 border-slate-800 h-80 w-[21rem] p-4 rounded-xl flex flex-col hover:scale-105 transition-all ease-in-out duration-300 hover:cursor-pointer font-roboto-mono`}
     >
-      <p className="text-center border-b-2 border-black">{title}</p>
-      <p className="flex-grow pt-4">{content}</p>
-      <div className="flex justify-between">
+      <p className="text-center border-b-2 border-black truncate">{title}</p>
+      <textarea
+        disabled
+        className="flex-grow pt-4 overflow-hidden transition-all ease-in-out duration-300"
+        style={{
+          backgroundColor:
+            colorChange || "rgb(253, 224, 71 / var(--tw-border-opacity))", // Fix the color definition
+        }}
+      >
+        {content}
+      </textarea>
+      <div className="flex justify-between pt-2">
         <Button type="secondary" className="text-lg p-2 border-2 border-black">
           <RxUpdate />
         </Button>

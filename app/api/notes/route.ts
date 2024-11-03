@@ -78,6 +78,34 @@ export async function DELETE(req: Request) {
   }
 }
 
+export async function PATCH(req: Request) {
+  const { id, title, content } = await req.json();
+  try {
+    await connectToDB();
+    const updatedNote = await Notes.findByIdAndUpdate(
+      id,
+      { title, content },
+      { new: true }
+    );
+    if (!updatedNote) {
+      return NextResponse.json({ error: "Note not found" }, { status: 404 });
+    }
+    return NextResponse.json(
+      { message: "Note successfully updated", note: updatedNote },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.error(
+      "Error updating note:",
+      err instanceof Error ? err.message : String(err)
+    );
+    return NextResponse.json(
+      { error: "Failed to update note" },
+      { status: 400 }
+    );
+  }
+}
+
 // Optionally, you can add a method handler for unsupported methods
 // export async function METHOD_NOT_ALLOWED() {
 //   return new Response(JSON.stringify({ message: "Method Not Allowed" }), {

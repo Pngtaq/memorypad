@@ -53,7 +53,7 @@ export default function Modal({
 
   return (
     <motion.div
-      className="flex justify-center items-center h-1/2 font-roboto-mono"
+      className="font-roboto-mono px-10 pt-20"
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{
@@ -64,7 +64,7 @@ export default function Modal({
     >
       <Button
         type="back"
-        className="absolute left-20 top-10"
+        className="absolute left-[1%] top-5"
         onClick={handleClick}
       >
         <IoArrowBack />
@@ -72,7 +72,7 @@ export default function Modal({
       <form
         onSubmit={handleSubmit}
         onReset={handleReset}
-        className="border-2 border-yellow-400 text-lg flex flex-col w-[55%] rounded-xl bg-yellow-100 px-4 py-2 placeholder-slate-200"
+        className="border-2 border-yellow-400 text-lg flex flex-col rounded-xl bg-yellow-100 px-4 py-2 mx-auto w-full lg:w-3/4"
       >
         <div className="pb-2">
           <input

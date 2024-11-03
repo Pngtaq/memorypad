@@ -75,6 +75,37 @@ const Page = () => {
       fetchData(); // Fetch notes after deleting a note
     }
   }
+  const updateNote = async (
+    id: string,
+    updatedTitle: string,
+    updatedContent: string
+  ) => {
+    try {
+      const response = await fetch("http://localhost:3000/api/notes", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: id,
+          title: updatedTitle,
+          content: updatedContent,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log("Note updated successfully:", result);
+
+      // Refresh notes after updating
+      fetchData();
+    } catch (error) {
+      console.error("Error updating note:", error);
+    }
+  };
 
   console.log(notes);
 
@@ -82,11 +113,15 @@ const Page = () => {
     return <Loading />;
   }
   return (
-    <div className="relative">
+    <div className="min-h-screen">
       <Navigation />
-      <div className={`${!isOpen ? "opacity-100" : "opacity-10"}`}>
+      <div
+        className={`${
+          !isOpen ? "opacity-100" : "opacity-10"
+        } flex justify-center`}
+      >
         {!isOpen && (
-          <div className="flex flex-row flex-wrap gap-y-8 gap-x-8 h-[60%] overflow-y-auto justify-center pt-12 pb-4 px-4">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2  justify-center grid-cols-1 gap-12  pt-12 pb-4 px-4 ">
             {notes.map((note) => (
               <NoteCard
                 key={note._id}
@@ -100,7 +135,7 @@ const Page = () => {
 
         <Button
           type="secondary"
-          className="absolute right-10 top-20 px-4 py-2"
+          className="absolute right-[1%] bottom-20 px-4 py-2"
           onClick={handleClick}
         >
           +

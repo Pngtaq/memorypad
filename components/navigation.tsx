@@ -6,9 +6,6 @@ export default function Navigation() {
       <Button type="nav" url="/">
         MemoryPad
       </Button>
-      <Button type="nav" url="/login">
-        Login
-      </Button>
     </nav>
   );
 }
