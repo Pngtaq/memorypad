@@ -66,6 +66,7 @@ const Page = () => {
 
       const data = await response.json();
       console.log(data.message); // Success message
+      console.log("deleted");
     } catch (error) {
       // Type assertion to handle the unknown type
       const errorMessage =

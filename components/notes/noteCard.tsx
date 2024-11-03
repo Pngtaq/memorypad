@@ -33,11 +33,11 @@ export default function NoteCard({ title, content, onClick }: NoteCardProps) {
         className="flex-grow pt-4 overflow-hidden transition-all ease-in-out duration-300"
         style={{
           backgroundColor:
-            colorChange || "rgb(253, 224, 71 / var(--tw-border-opacity))", // Fix the color definition
+            colorChange || "rgb(253, 224, 71 / var(--tw-border-opacity))",
         }}
-      >
-        {content}
-      </textarea>
+        value={content} // Replace with `value` if dynamic content is needed
+      />
+
       <div className="flex justify-between pt-2">
         <Button type="secondary" className="text-lg p-2 border-2 border-black">
           <RxUpdate />

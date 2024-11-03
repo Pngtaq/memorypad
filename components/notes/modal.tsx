@@ -72,7 +72,7 @@ export default function Modal({
       <form
         onSubmit={handleSubmit}
         onReset={handleReset}
-        className="border-2 border-yellow-400 text-lg flex flex-col rounded-xl bg-yellow-100 px-4 py-2 mx-auto w-full lg:w-3/4"
+        className="border-2 border-yellow-400 text-lg flex flex-col rounded-xl bg-yellow-100 px-4 py-2 mx-auto w-full lg:w-1/2"
       >
         <div className="pb-2">
           <input
@@ -93,6 +93,7 @@ export default function Modal({
               setContent(e.target.value);
               setLetterCount(e.target.value.length);
             }}
+            maxLength={160}
           />
         </div>
         <div className="flex justify-between text-sm pb-1">
