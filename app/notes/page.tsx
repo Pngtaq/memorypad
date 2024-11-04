@@ -76,37 +76,37 @@ const Page = () => {
       fetchData(); // Fetch notes after deleting a note
     }
   }
-  const updateNote = async (
-    id: string,
-    updatedTitle: string,
-    updatedContent: string
-  ) => {
-    try {
-      const response = await fetch("http://localhost:3000/api/notes", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: id,
-          title: updatedTitle,
-          content: updatedContent,
-        }),
-      });
+  // const updateNote = async (
+  //   id: string,
+  //   updatedTitle: string,
+  //   updatedContent: string
+  // ) => {
+  //   try {
+  //     const response = await fetch("http://localhost:3000/api/notes", {
+  //       method: "PATCH",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         id: id,
+  //         title: updatedTitle,
+  //         content: updatedContent,
+  //       }),
+  //     });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status}`);
-      }
+  //     if (!response.ok) {
+  //       throw new Error(`Error: ${response.status}`);
+  //     }
 
-      const result = await response.json();
-      console.log("Note updated successfully:", result);
+  //     const result = await response.json();
+  //     console.log("Note updated successfully:", result);
 
-      // Refresh notes after updating
-      fetchData();
-    } catch (error) {
-      console.error("Error updating note:", error);
-    }
-  };
+  //     // Refresh notes after updating
+  //     fetchData();
+  //   } catch (error) {
+  //     console.error("Error updating note:", error);
+  //   }
+  // };
 
   console.log(notes);
 
