@@ -25,7 +25,7 @@ const Page = () => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:3000/api/notes");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/notes`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -50,13 +50,16 @@ const Page = () => {
 
   async function deleteNote(noteId: string) {
     try {
-      const response = await fetch("http://localhost:3000/api/notes", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: noteId }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/notes`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: noteId }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
