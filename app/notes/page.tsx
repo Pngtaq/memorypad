@@ -108,7 +108,7 @@ const Page = () => {
   //   }
   // };
 
-  console.log(notes);
+  // console.log(notes);
 
   if (isLoading) {
     return <Loading />;
